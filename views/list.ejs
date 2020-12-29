@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>BucketList</title>
+</head>
+
+<body>
+    <%= message.error %>
+        <div id="loader"></div>
+        <div class="app-container hide" id="bucketList">
+            <h1 class="app-header">BUCKET LIST</h1>
+            <div class="search-box">
+                <input type="text" placeholder="Search by title" name="search-item" id="search-item" class="input-box">
+            </div>
+            <ul id="item-list">
+            </ul>
+            <form id="create-form">
+                <input id="create-field" type="text" autocomplete="off" placeholder="Add new item" name="item"
+                    class="list-input input-box">
+            </form>
+        </div>
+        <div class="overlay">
+        </div>
+        <div class="update-container">
+            <h3>Enter your new desired item</h3>
+            <form id="update-form">
+                <input id="update-field" type="text" autocomplete="off" placeholder="Edit item" name="item"
+                    class="list-input input-box">
+            </form>
+        </div>
+
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="../browser.js"></script>
+</body>
+
+</html>
