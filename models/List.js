@@ -56,7 +56,7 @@ List.prototype.deleteListItem = function () {
 // update an existing item in the list
 List.prototype.updateListItem = function () {
     return new Promise((resolve, reject) => {
-        listCollection.findOneAndUpdate({ _id: new mongodb.ObjectId(this.data.id) }, { $set: { item: this.data.item } }, { new: true }, function (err, doc) {
+        listCollection.findOneAndUpdate({ _id: new mongodb.ObjectId(this.data.id) }, { $set: { item: this.data.item } }, { returnOriginal: false }, function (err, doc) {
             if (err) reject(err);
             resolve(doc)
         })

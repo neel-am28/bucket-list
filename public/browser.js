@@ -12,8 +12,7 @@ axios.get('/displayItems').then((response) => {
     let ourHTML = items.map(function (item) {
         return itemTemplate(item)
     }).join('')
-
-    document.getElementById('item-list').innerHTML = ourHTML;
+    document.getElementById('item-list').insertAdjacentHTML('beforeend', ourHTML);
     loader.classList.add('hide');
     bucketList.classList.remove('hide');
 }).catch((err) => {
@@ -41,19 +40,18 @@ createForm.addEventListener('submit', e => {
         axios.post('/create', { item: createField.value }).then((response) => {
             createField.value = ''
             createField.focus()
-            document.getElementById('item-list').innerHTML = itemTemplate(response.data)
+            document.getElementById('item-list').insertAdjacentHTML('beforeend', itemTemplate(response.data))
         }).catch(() => {
             console.log("Please try again later");
         })
     }
 })
-
 document.addEventListener('click', function (e) {
     // Delete Feature
     if (e.target.classList.contains('delete-me')) {
         swal({
             title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this list item!",
+            text: "Once deleted, you will not be able to recover this item!",
             buttons: true,
             dangerMode: true,
         }).then((willDelete) => {
@@ -71,50 +69,23 @@ document.addEventListener('click', function (e) {
 
     // Update Feature
     if (e.target.classList.contains('edit-me')) {
-
-        const updateForm = document.querySelector('#update-form');
-        const updateField = document.querySelector('#update-field');
-        const updateContainer = document.querySelector('.update-container');
-        const overlay = document.querySelector('.overlay');
-        updateContainer.classList.add('show')
-        overlay.classList.add('show')
-        updateField.value = e.target.parentElement.parentElement.querySelector('.item-text').innerHTML
-        updateForm.addEventListener('submit', event => {
-            event.preventDefault()
-            if (updateField.value) {
-                axios.post('/update-item', { item: updateField.value, id: e.target.getAttribute("data-id") }).then(() => {
-                    e.target.parentElement.parentElement.querySelector('.item-text').innerHTML = updateField.value
-                    document.querySelector('.overlay').classList.remove('show');
-                    document.querySelector('.update-container').classList.remove('show');
-                }).catch(() => {
-                    console.log('try again later');
-                })
-            }
-
-        })
+        e.target.blur()
+        let userInput = prompt("Enter new text", e.target.parentElement.parentElement.querySelector('.item-text').innerHTML)
+        if (userInput) {
+            axios.post('/update-item', { item: userInput, id: e.target.getAttribute("data-id") }).then((doc) => {
+                e.target.parentElement.parentElement.querySelector('.item-text').innerHTML = doc.data.value.item
+            }).catch(() => {
+                console.log('try again later');
+            })
+        }
     }
 })
-
-// updateForm.addEventListener('submit', event => {
-//     event.preventDefault()
-//     if (updateField.value) {
-//         axios.post('/update-item', { item: updateField.value, id: e.target.getAttribute("data-id") }).then(() => {
-//             e.target.parentElement.parentElement.querySelector('.item-text').innerHTML = updateField.value
-//             document.querySelector('.overlay').classList.remove('show');
-//             document.querySelector('.update-container').classList.remove('show');
-//         }).catch(() => {
-//             console.log('try again later');
-//         })
-//     }
-
-// })
 
 // add overlay when clicked on edit button
 document.querySelector('.overlay').addEventListener('click', (e) => {
     if (e.target.classList.contains('overlay')) {
         document.querySelector('.overlay').classList.remove('show');
         document.querySelector('.update-container').classList.remove('show');
-
     }
 
 })
