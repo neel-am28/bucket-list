@@ -62,8 +62,8 @@ document.addEventListener('click', function (e) {
             if (willDelete) {
                 axios.post('/delete-item', { id: e.target.getAttribute("data-id") }).then(function () {
                     // console.log(e.target.parentElement.parentElement.parentElement.childElementCount);
-                    const parent = e.target.parentElement.parentElement.parentElement.childElementCount
-                    if (parent === 2) {
+                    const childCount = e.target.parentElement.parentElement.parentElement.childElementCount
+                    if (childCount === 2) {
                         document.querySelector('.noData').style.display = 'block'
                     } else {
                         document.querySelector('.noData').style.display = 'none'
