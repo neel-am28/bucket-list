@@ -12,6 +12,9 @@ axios.get('/displayItems').then((response) => {
     let ourHTML = items.map(function (item) {
         return itemTemplate(item)
     }).join('')
+    if (items.length === 0) {
+        document.querySelector('.noData').style.display = 'block'
+    }
     document.getElementById('item-list').insertAdjacentHTML('beforeend', ourHTML);
     loader.classList.add('hide');
     bucketList.classList.remove('hide');
@@ -40,6 +43,7 @@ createForm.addEventListener('submit', e => {
         axios.post('/create', { item: createField.value }).then((response) => {
             createField.value = ''
             createField.focus()
+            document.querySelector('.noData').style.display = 'none'
             document.getElementById('item-list').insertAdjacentHTML('beforeend', itemTemplate(response.data))
         }).catch(() => {
             console.log("Please try again later");
@@ -57,6 +61,13 @@ document.addEventListener('click', function (e) {
         }).then((willDelete) => {
             if (willDelete) {
                 axios.post('/delete-item', { id: e.target.getAttribute("data-id") }).then(function () {
+                    // console.log(e.target.parentElement.parentElement.parentElement.childElementCount);
+                    const parent = e.target.parentElement.parentElement.parentElement.childElementCount
+                    if (parent === 2) {
+                        document.querySelector('.noData').style.display = 'block'
+                    } else {
+                        document.querySelector('.noData').style.display = 'none'
+                    }
                     e.target.parentElement.parentElement.remove()
                 }).catch(function (err) {
                     console.log(err);
