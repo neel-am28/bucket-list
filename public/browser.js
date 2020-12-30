@@ -15,6 +15,7 @@ axios.get('/displayItems').then((response) => {
     if (items.length === 0) {
         document.querySelector('.noData').style.display = 'block'
     }
+    document.querySelector('.noData').style.display = 'none'
     document.getElementById('item-list').insertAdjacentHTML('beforeend', ourHTML);
     loader.classList.add('hide');
     bucketList.classList.remove('hide');
